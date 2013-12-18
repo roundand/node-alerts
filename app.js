@@ -1,8 +1,8 @@
 var EventEmitter = require("events").EventEmitter;
 var util = require("util");
 
-function fred(){
-	console.log("Fred gets the message");
+function fred(message){
+	console.log("Fred gets the message: " + message);
 }
 
 var ee = new EventEmitter();
@@ -19,12 +19,13 @@ ee.once("someEvent", function () { console.log("event 9"); });
 ee.on("someEvent", function () { console.log("event 10"); });
 ee.once("someEvent", function () { console.log("event 11"); });
 ee.on("heyFred", fred);
+ee.emit("heyFred", "It's " + new Date().toISOString());
  
 ee.emit("someEvent");
 ee.emit("someEvent");
 
-ee.emit("heyFred");
+ee.emit("heyFred", "It's " + new Date().toISOString());
 ee.removeListener("heyFred", fred);
-ee.emit("heyFred");
+ee.emit("heyFred", "It's " + new Date().toISOString());
 
 console.log(util.inspect(ee.listeners('someEvent')));
